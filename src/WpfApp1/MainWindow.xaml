@@ -6,9 +6,11 @@
     xmlns:local="clr-namespace:WpfApp1"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     x:Name="Window"
-    Title="MainWindow"
-    Width="800" WindowStyle="None"
+    Title="MainWindow" AllowsTransparency="True"
+    Width="800"
     Height="450"
+    BorderThickness="0"
+    WindowStyle="None"
     mc:Ignorable="d">
     <local:DockHost>
         <StackPanel>

@@ -6,17 +6,36 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="local:DockHost">
-                    <Border x:Name="Border">
+                    <Grid SnapsToDevicePixels="True">
+                        <ContentPresenter Margin="5" />
+                        <Border x:Name="Left" BorderThickness="5,0,0,0" />
+                        <Border x:Name="Top" BorderThickness="0,5,0,0" />
+                        <Border
+                            x:Name="Right"
+                            BorderThickness="0,0,5,0"
+                            SnapsToDevicePixels="True" />
+                    </Grid>
 
-                        <ContentPresenter />
-                    </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="Left" Value="Docked">
-                            <Setter TargetName="Border" Property="Background" Value="Cyan" />
+                            <Setter TargetName="Left" Property="BorderBrush" Value="Cyan" />
                         </Trigger>
                         <Trigger Property="Left" Value="Docking">
-                            <Setter TargetName="Border" Property="Background" Value="Yellow" />
+                            <Setter TargetName="Left" Property="BorderBrush" Value="Yellow" />
                         </Trigger>
+                        <Trigger Property="Top" Value="Docked">
+                            <Setter TargetName="Top" Property="BorderBrush" Value="Cyan" />
+                        </Trigger>
+                        <Trigger Property="Top" Value="Docking">
+                            <Setter TargetName="Top" Property="BorderBrush" Value="Yellow" />
+                        </Trigger>
+                        <Trigger Property="Right" Value="Docked">
+                            <Setter TargetName="Right" Property="BorderBrush" Value="Cyan" />
+                        </Trigger>
+                        <Trigger Property="Right" Value="Docking">
+                            <Setter TargetName="Right" Property="BorderBrush" Value="Yellow" />
+                        </Trigger>
+
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>

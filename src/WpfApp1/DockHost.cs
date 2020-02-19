@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Printing;
+using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -22,15 +24,13 @@ namespace WpfApp1
     public static readonly DependencyProperty TopProperty = DependencyProperty.Register(
       "Top", typeof(DockState), typeof(DockHost), new PropertyMetadata(default(DockState)));
 
-    public static readonly DependencyProperty SnapPixelsProperty = DependencyProperty.Register(
-      "SnapPixels", typeof(int), typeof(DockHost), new PropertyMetadata(default(int)));
-
-    private double leftMouseSnap;
-    private int leftEdgeSnap;
-
     private bool isDragging;
-    private Point anchor;
-    private Point leftSnapPoint;
+    //private Point anchor;
+    private Point horizontalSnapPoint;
+    private Point verticalSnapPoint;
+
+    private double anchorX;
+    private double anchorY;
 
     public DockState Top
     {
@@ -49,13 +49,6 @@ namespace WpfApp1
       get => (DockState)GetValue(LeftProperty);
       set => SetValue(LeftProperty, value);
     }
-
-    public int SnapPixels
-    {
-      get => (int)GetValue(SnapPixelsProperty);
-      set => SetValue(SnapPixelsProperty, value);
-    }
-
 
     static DockHost()
     {
@@ -87,8 +80,9 @@ namespace WpfApp1
       isDragging = true;
       CaptureMouse();
       e.Handled = true;
-      anchor = GetMousePosition();
-      var delta = GetMouseWindowDelta();
+      var anchor = window.PointToScreen(Mouse.GetPosition(window));
+      anchorX = anchor.X;
+      anchorY = anchor.Y;
     }
 
     private void WindowOnMouseUp(object sender, MouseButtonEventArgs e)
@@ -107,42 +101,63 @@ namespace WpfApp1
 
       var currentPoint = PointToScreen(e.GetPosition(this));
 
-      if (Left == DockState.Free)
+      Left = UpdateDockState(currentPoint, Left, screens[0].TopX);
+      Right = UpdateDockState(currentPoint, Right, screens[0].TopX+screens[0].Width-(int)window.Width);
+      Top = UpdateTopDockState(currentPoint, Top, screens[0].TopY);
+
+      if (Left == DockState.Free && Right == DockState.Free)
       {
-        if (Math.Abs(window.Left - screens[0].TopX) < 25)
+        window.Left = window.Left + currentPoint.X - anchorX;
+        anchorX = currentPoint.X;
+      }
+
+      if (Top == DockState.Free)
+      {
+        window.Top = window.Top + currentPoint.Y - anchorY;
+        anchorY = currentPoint.Y;
+      }
+    }
+
+    private DockState UpdateDockState(Point currentPoint, DockState currentDockState, int dockLine)
+    {
+      if (currentDockState == DockState.Free)
+      {
+        if (Math.Abs(window.Left - dockLine) < 25)
         {
-          Debug.WriteLine("SnappedLeft");
-          Left = DockState.Docking;
-          leftSnapPoint = currentPoint;
-          window.Left = screens[0].TopX;
-          return;
+          currentDockState = DockState.Docking;
+          horizontalSnapPoint = currentPoint;
+          window.Left = dockLine;
         }
       }
       else //Snapped
       {
-        var delta = leftSnapPoint - currentPoint;
-        Debug.WriteLine($"Delta {delta.X}");
-        if (Math.Abs(delta.X) < 50)
-          return;
-        Left = DockState.Free;
+        var delta = horizontalSnapPoint - currentPoint;
+        if (Math.Abs(delta.X) > 50)
+          currentDockState = DockState.Free;
       }
 
-      window.Left = window.Left + currentPoint.X - anchor.X;
-      window.Top = window.Top + currentPoint.Y - anchor.Y;
-      anchor = currentPoint;
-
+      return currentDockState;
     }
 
-    private Point GetMousePosition()
+    private DockState UpdateTopDockState(Point currentPoint, DockState currentDockState, int dockLine)
     {
-      Debug.WriteLine($"GetMousePosition = {window.PointToScreen(Mouse.GetPosition(window)).X} : {window.PointToScreen(Mouse.GetPosition(window)).Y}");
-      return window.PointToScreen(Mouse.GetPosition(window));
-    }
+      if (currentDockState == DockState.Free)
+      {
+        if (Math.Abs(window.Top - dockLine) < 25)
+        {
+          currentDockState = DockState.Docking;
+          verticalSnapPoint = currentPoint;
+          window.Top = dockLine;
+        }
+      }
+      else //Snapped
+      {
+        var delta = verticalSnapPoint - currentPoint;
+        if (Math.Abs(delta.Y) > 50)
+          currentDockState = DockState.Free;
+      }
 
-    private Point GetMouseWindowDelta()
-    {
-      Debug.WriteLine($"GetMouseWindowDelta = {Mouse.GetPosition(window).X} : {Mouse.GetPosition(window).Y}");
-      return Mouse.GetPosition(window);
+      return currentDockState;
     }
   }
 }
