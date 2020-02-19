@@ -5,13 +5,17 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="clr-namespace:WpfApp1"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    x:Name="Window"
     Title="MainWindow"
-    Width="800"
+    Width="800" WindowStyle="None"
     Height="450"
     mc:Ignorable="d">
     <local:DockHost>
-        <Grid>
-            <TextBlock Text="Hello" />
-        </Grid>
+        <StackPanel>
+            <TextBlock Text="{Binding ElementName=Window, Path=Left}" />
+            <TextBlock Text="{Binding ElementName=Window, Path=Top}" />
+            <TextBlock Text="{Binding ElementName=Window, Path=ActualWidth}" />
+            <TextBlock Text="{Binding ElementName=Window, Path=ActualHeight}" />
+        </StackPanel>
     </local:DockHost>
 </Window>

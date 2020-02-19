@@ -6,7 +6,18 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="local:DockHost">
-                    <ContentPresenter />
+                    <Border x:Name="Border">
+
+                        <ContentPresenter />
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="Left" Value="Docked">
+                            <Setter TargetName="Border" Property="Background" Value="Cyan" />
+                        </Trigger>
+                        <Trigger Property="Left" Value="Docking">
+                            <Setter TargetName="Border" Property="Background" Value="Yellow" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>

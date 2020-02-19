@@ -29,7 +29,7 @@ namespace WpfApp1
       {
         screens.Add(new Screen(
           (mi.dwFlags & 1) == 1, // 1 = primary monitor
-          mi.rcMonitor.Left,
+          mi.rcMonitor.Left - 7, //todo bug, why is this offset necessary?
           mi.rcMonitor.Top,
           Math.Abs(mi.rcMonitor.Right - mi.rcMonitor.Left),
           Math.Abs(mi.rcMonitor.Bottom - mi.rcMonitor.Top)));
