@@ -12,7 +12,7 @@ namespace WpfApp1
     private readonly object lockObject = new object();
     private Window window;
     private List<Monitors.Screen> screens;
-    
+
     public static readonly DependencyProperty LeftProperty = DependencyProperty.Register(
       "Left", typeof(DockState), typeof(DockHost), new PropertyMetadata(default(DockState)));
 
@@ -28,21 +28,25 @@ namespace WpfApp1
     private double leftMouseSnap;
     private int leftEdgeSnap;
 
+    private bool isDragging;
+    private Point anchor;
+    private Point leftSnapPoint;
+
     public DockState Top
     {
-      get => (DockState) GetValue(TopProperty);
+      get => (DockState)GetValue(TopProperty);
       set => SetValue(TopProperty, value);
     }
 
     public DockState Right
     {
-      get => (DockState) GetValue(RightProperty);
+      get => (DockState)GetValue(RightProperty);
       set => SetValue(RightProperty, value);
     }
 
     public DockState Left
     {
-      get => (DockState) GetValue(LeftProperty);
+      get => (DockState)GetValue(LeftProperty);
       set => SetValue(LeftProperty, value);
     }
 
@@ -58,10 +62,6 @@ namespace WpfApp1
       DefaultStyleKeyProperty.OverrideMetadata(typeof(DockHost), new FrameworkPropertyMetadata(typeof(DockHost)));
     }
 
- private void WindowOnLocationChanged(object sender, EventArgs e)
-    {
-      Update();
-    }
 
     public override void OnApplyTemplate()
     {
@@ -72,67 +72,77 @@ namespace WpfApp1
         return;
 
       window.MouseDown += WindowOnMouseDown;
-      
+      window.MouseMove += WindowOnMouseMove;
+
+
       window.MouseUp += WindowOnMouseUp;
-      window.LocationChanged += WindowOnLocationChanged;
 
       screens = Monitors.GetScreens();
     }
 
+
+
     private void WindowOnMouseDown(object sender, MouseButtonEventArgs e)
     {
-      if (Left == DockState.Docking)
-        return;
-      if (e.MouseDevice.LeftButton == MouseButtonState.Pressed)
-        window.DragMove();
+      isDragging = true;
+      CaptureMouse();
+      e.Handled = true;
+      anchor = GetMousePosition();
+      var delta = GetMouseWindowDelta();
     }
 
     private void WindowOnMouseUp(object sender, MouseButtonEventArgs e)
     {
+      isDragging = false;
+
       Left = Math.Abs(window.Left - screens[0].TopX) < 0.5
         ? DockState.Docked
-        : DockState.Undocked;
+        : DockState.Free;
     }
 
-
-    private void Update()
+    private void WindowOnMouseMove(object sender, MouseEventArgs e)
     {
-      lock (lockObject)
+      if (!isDragging)
+        return;
+
+      var currentPoint = PointToScreen(e.GetPosition(this));
+
+      if (Left == DockState.Free)
       {
-
-        //made it this far, means we are dragging
-        if (Left != DockState.Docking)
+        if (Math.Abs(window.Left - screens[0].TopX) < 25)
         {
-          Debug.WriteLine("Not Docking");
-          //first time dragging
-          if (Math.Abs(window.Left - screens[0].TopX) < 5)
-          {
-            Debug.WriteLine("***DOCKING***");
-            Left = DockState.Docking;
-            leftEdgeSnap = screens[0].TopX;
-            leftMouseSnap = window.PointToScreen(Mouse.GetPosition(window)).X;
-          }
-
+          Debug.WriteLine("SnappedLeft");
+          Left = DockState.Docking;
+          leftSnapPoint = currentPoint;
+          window.Left = screens[0].TopX;
           return;
         }
-
-        //here, we are docking and snapping
-        var currentMousePosition = window.PointToScreen(Mouse.GetPosition(window));
-        var mouseDiff = leftMouseSnap - currentMousePosition.X;
-        if (Math.Abs(mouseDiff) < 20)
-        {
-          Debug.WriteLine(currentMousePosition);
-          window.Left = leftEdgeSnap;
-        }
-        else
-        {
-          Debug.WriteLine("------undocked------");
-          Left = DockState.Undocked;
-          window.Left += mouseDiff;
-        }
-
+      }
+      else //Snapped
+      {
+        var delta = leftSnapPoint - currentPoint;
+        Debug.WriteLine($"Delta {delta.X}");
+        if (Math.Abs(delta.X) < 50)
+          return;
+        Left = DockState.Free;
       }
 
+      window.Left = window.Left + currentPoint.X - anchor.X;
+      window.Top = window.Top + currentPoint.Y - anchor.Y;
+      anchor = currentPoint;
+
+    }
+
+    private Point GetMousePosition()
+    {
+      Debug.WriteLine($"GetMousePosition = {window.PointToScreen(Mouse.GetPosition(window)).X} : {window.PointToScreen(Mouse.GetPosition(window)).Y}");
+      return window.PointToScreen(Mouse.GetPosition(window));
+    }
+
+    private Point GetMouseWindowDelta()
+    {
+      Debug.WriteLine($"GetMouseWindowDelta = {Mouse.GetPosition(window).X} : {Mouse.GetPosition(window).Y}");
+      return Mouse.GetPosition(window);
     }
   }
 }

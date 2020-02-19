@@ -2,7 +2,7 @@
 {
   public enum DockState
   {
-    Undocked,
+    Free,
     Docking,
     Docked
   }
