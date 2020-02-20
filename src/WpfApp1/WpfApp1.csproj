@@ -2,8 +2,14 @@
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>netcoreapp3.0</TargetFramework>
+    <TargetFramework>net48</TargetFramework>
     <UseWPF>true</UseWPF>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Reference Include="Microsoft.Expression.Interactions">
+      <HintPath>..\..\..\..\..\.nuget\packages\expression.interaction\3.0.40218\lib\net46\Microsoft.Expression.Interactions.dll</HintPath>
+    </Reference>
+  </ItemGroup>
 
 </Project>

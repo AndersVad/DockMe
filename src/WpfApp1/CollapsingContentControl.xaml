@@ -1,0 +1,133 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:WpfApp1">
+    <Style x:Key="CollapsingContentControlStyle" TargetType="local:CollapsingContentControl">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="local:CollapsingContentControl">
+                    <Grid>
+                        <Grid
+                            x:Name="TopThumb"
+                            Height="10"
+                            VerticalAlignment="Top"
+                            Background="Purple"
+                            Visibility="Collapsed" />
+                        <Grid
+                            x:Name="LeftThumb"
+                            Width="10"
+                            HorizontalAlignment="Left"
+                            Background="Purple"
+                            Visibility="Collapsed" />
+                        <Grid
+                            x:Name="RightThumb"
+                            Width="10"
+                            HorizontalAlignment="Right"
+                            Background="Purple"
+                            Visibility="Collapsed" />
+                        <ContentPresenter>
+                            <ContentPresenter.RenderTransform>
+                                <TranslateTransform x:Name="TranslateTransform" />
+                            </ContentPresenter.RenderTransform>
+                        </ContentPresenter>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="Direction" Value="Top">
+                            <Setter TargetName="TopThumb" Property="Visibility" Value="Visible" />
+                        </Trigger>
+                        <Trigger Property="Direction" Value="Left">
+                            <Setter TargetName="LeftThumb" Property="Visibility" Value="Visible" />
+                        </Trigger>
+                        <Trigger Property="Direction" Value="Right">
+                            <Setter TargetName="RightThumb" Property="Visibility" Value="Visible" />
+                        </Trigger>
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsMouseOver" Value="False" />
+                                <Condition Property="Direction" Value="Left" />
+                            </MultiTrigger.Conditions>
+                            <MultiTrigger.EnterActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation
+                                            Storyboard.TargetName="TranslateTransform"
+                                            Storyboard.TargetProperty="X"
+                                            To="-1000"
+                                            Duration="0:0:0.3" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </MultiTrigger.EnterActions>
+                            <MultiTrigger.ExitActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation
+                                            Storyboard.TargetName="TranslateTransform"
+                                            Storyboard.TargetProperty="X"
+                                            Duration="0:0:0.3" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </MultiTrigger.ExitActions>
+                        </MultiTrigger>
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsMouseOver" Value="False" />
+                                <Condition Property="Direction" Value="Right" />
+                            </MultiTrigger.Conditions>
+                            <MultiTrigger.EnterActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation
+                                            Storyboard.TargetName="TranslateTransform"
+                                            Storyboard.TargetProperty="X"
+                                            To="1000"
+                                            Duration="0:0:0.3" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </MultiTrigger.EnterActions>
+                            <MultiTrigger.ExitActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation
+                                            Storyboard.TargetName="TranslateTransform"
+                                            Storyboard.TargetProperty="X"
+                                            Duration="0:0:0.3" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </MultiTrigger.ExitActions>
+                        </MultiTrigger>
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsMouseOver" Value="False" />
+                                <Condition Property="Direction" Value="Top" />
+                            </MultiTrigger.Conditions>
+                            <MultiTrigger.EnterActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation
+                                            Storyboard.TargetName="TranslateTransform"
+                                            Storyboard.TargetProperty="Y"
+                                            To="-500"
+                                            Duration="0:0:0.3" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </MultiTrigger.EnterActions>
+                            <MultiTrigger.ExitActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation
+                                            Storyboard.TargetName="TranslateTransform"
+                                            Storyboard.TargetProperty="Y"
+                                            Duration="0:0:0.3" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </MultiTrigger.ExitActions>
+                        </MultiTrigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style BasedOn="{StaticResource CollapsingContentControlStyle}" TargetType="local:CollapsingContentControl" />
+
+</ResourceDictionary>

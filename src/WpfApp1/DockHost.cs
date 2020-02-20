@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Printing;
-using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -77,7 +74,7 @@ namespace WpfApp1
 
     private void WindowOnMouseDown(object sender, MouseButtonEventArgs e)
     {
-      isDragging = true;
+
       CaptureMouse();
       e.Handled = true;
       var anchor = window.PointToScreen(Mouse.GetPosition(window));
@@ -87,7 +84,7 @@ namespace WpfApp1
       Left = Left == DockState.Docked ? DockState.Docking : DockState.Free;
       Right = Right == DockState.Docked ? DockState.Docking : DockState.Free;
       Top = Top == DockState.Docked ? DockState.Docking : DockState.Free;
-
+      isDragging = true;
     }
 
     private void WindowOnMouseUp(object sender, MouseButtonEventArgs e)
@@ -98,9 +95,7 @@ namespace WpfApp1
       Right = Right == DockState.Docking ? DockState.Docked : DockState.Free;
       Top = Top == DockState.Docking ? DockState.Docked : DockState.Free;
 
-      Left = Math.Abs(window.Left - screens[0].TopX) < 0.5
-        ? DockState.Docked
-        : DockState.Free;
+      ReleaseMouseCapture();
     }
 
     private void WindowOnMouseMove(object sender, MouseEventArgs e)

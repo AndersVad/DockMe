@@ -5,6 +5,12 @@
     xmlns:local="clr-namespace:WpfApp1"
     StartupUri="MainWindow.xaml">
     <Application.Resources>
-        <ResourceDictionary Source="DockHost.xaml" />
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="DockHost.xaml" />
+                <ResourceDictionary Source="CollapsingContentControl.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+
     </Application.Resources>
 </Application>

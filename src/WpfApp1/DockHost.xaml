@@ -6,36 +6,52 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="local:DockHost">
-                    <Grid SnapsToDevicePixels="True">
-                        <ContentPresenter Margin="5" />
-                        <Border x:Name="Left" BorderThickness="5,0,0,0" />
-                        <Border x:Name="Top" BorderThickness="0,5,0,0" />
+                    <Grid Background="Transparent" SnapsToDevicePixels="True">
+
+                        <local:CollapsingContentControl x:Name="ContentPresenter" Content="{TemplateBinding Content}" />
+
+                        <Border
+                            x:Name="Left"
+                            BorderBrush="Yellow"
+                            BorderThickness="5,0,0,0"
+                            IsHitTestVisible="False"
+                            Visibility="Collapsed" />
+                        <Border
+                            x:Name="Top"
+                            BorderBrush="Yellow"
+                            BorderThickness="0,5,0,0"
+                            IsHitTestVisible="False"
+                            Visibility="Collapsed" />
                         <Border
                             x:Name="Right"
+                            BorderBrush="Yellow"
                             BorderThickness="0,0,5,0"
-                            SnapsToDevicePixels="True" />
+                            IsHitTestVisible="False"
+                            SnapsToDevicePixels="True"
+                            Visibility="Collapsed" />
                     </Grid>
 
                     <ControlTemplate.Triggers>
-                        <Trigger Property="Left" Value="Docked">
-                            <Setter TargetName="Left" Property="BorderBrush" Value="Cyan" />
-                        </Trigger>
-                        <Trigger Property="Left" Value="Docking">
-                            <Setter TargetName="Left" Property="BorderBrush" Value="Yellow" />
-                        </Trigger>
+
                         <Trigger Property="Top" Value="Docked">
-                            <Setter TargetName="Top" Property="BorderBrush" Value="Cyan" />
-                        </Trigger>
-                        <Trigger Property="Top" Value="Docking">
-                            <Setter TargetName="Top" Property="BorderBrush" Value="Yellow" />
+                            <Setter TargetName="ContentPresenter" Property="Direction" Value="Top" />
                         </Trigger>
                         <Trigger Property="Right" Value="Docked">
-                            <Setter TargetName="Right" Property="BorderBrush" Value="Cyan" />
+                            <Setter TargetName="ContentPresenter" Property="Direction" Value="Right" />
                         </Trigger>
-                        <Trigger Property="Right" Value="Docking">
-                            <Setter TargetName="Right" Property="BorderBrush" Value="Yellow" />
+                        <Trigger Property="Left" Value="Docked">
+                            <Setter TargetName="ContentPresenter" Property="Direction" Value="Left" />
                         </Trigger>
 
+                        <Trigger Property="Left" Value="Docking">
+                            <Setter TargetName="Left" Property="Visibility" Value="Visible" />
+                        </Trigger>
+                        <Trigger Property="Top" Value="Docking">
+                            <Setter TargetName="Top" Property="Visibility" Value="Visible" />
+                        </Trigger>
+                        <Trigger Property="Right" Value="Docking">
+                            <Setter TargetName="Right" Property="Visibility" Value="Visible" />
+                        </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>

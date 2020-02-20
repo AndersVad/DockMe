@@ -6,18 +6,24 @@
     xmlns:local="clr-namespace:WpfApp1"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     x:Name="Window"
-    Title="MainWindow" AllowsTransparency="True"
+    Title="MainWindow"
     Width="800"
     Height="450"
+    AllowsTransparency="True"
+    Background="Transparent"
     BorderThickness="0"
     WindowStyle="None"
     mc:Ignorable="d">
-    <local:DockHost>
-        <StackPanel>
-            <TextBlock Text="{Binding ElementName=Window, Path=Left}" />
-            <TextBlock Text="{Binding ElementName=Window, Path=Top}" />
-            <TextBlock Text="{Binding ElementName=Window, Path=ActualWidth}" />
-            <TextBlock Text="{Binding ElementName=Window, Path=ActualHeight}" />
-        </StackPanel>
-    </local:DockHost>
+    <Border BorderBrush="Blue" BorderThickness="0">
+        <local:DockHost>
+            <Grid Background="Red">
+                <StackPanel>
+                    <TextBlock Text="{Binding ElementName=Window, Path=Left}" />
+                    <TextBlock Text="{Binding ElementName=Window, Path=Top}" />
+                    <TextBlock Text="{Binding ElementName=Window, Path=ActualWidth}" />
+                    <TextBlock Text="{Binding ElementName=Window, Path=ActualHeight}" />
+                </StackPanel>
+            </Grid>
+        </local:DockHost>
+    </Border>
 </Window>
