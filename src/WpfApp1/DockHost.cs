@@ -83,11 +83,20 @@ namespace WpfApp1
       var anchor = window.PointToScreen(Mouse.GetPosition(window));
       anchorX = anchor.X;
       anchorY = anchor.Y;
+
+      Left = Left == DockState.Docked ? DockState.Docking : DockState.Free;
+      Right = Right == DockState.Docked ? DockState.Docking : DockState.Free;
+      Top = Top == DockState.Docked ? DockState.Docking : DockState.Free;
+
     }
 
     private void WindowOnMouseUp(object sender, MouseButtonEventArgs e)
     {
       isDragging = false;
+
+      Left = Left == DockState.Docking ? DockState.Docked : DockState.Free;
+      Right = Right == DockState.Docking ? DockState.Docked : DockState.Free;
+      Top = Top == DockState.Docking ? DockState.Docked : DockState.Free;
 
       Left = Math.Abs(window.Left - screens[0].TopX) < 0.5
         ? DockState.Docked
@@ -101,8 +110,8 @@ namespace WpfApp1
 
       var currentPoint = PointToScreen(e.GetPosition(this));
 
-      Left = UpdateDockState(currentPoint, Left, screens[0].TopX);
-      Right = UpdateDockState(currentPoint, Right, screens[0].TopX+screens[0].Width-(int)window.Width);
+      Left = UpdateDraggingState(currentPoint, Left, screens[0].TopX);
+      Right = UpdateDraggingState(currentPoint, Right, screens[0].TopX+screens[0].Width-(int)window.Width);
       Top = UpdateTopDockState(currentPoint, Top, screens[0].TopY);
 
       if (Left == DockState.Free && Right == DockState.Free)
@@ -118,7 +127,7 @@ namespace WpfApp1
       }
     }
 
-    private DockState UpdateDockState(Point currentPoint, DockState currentDockState, int dockLine)
+    private DockState UpdateDraggingState(Point currentPoint, DockState currentDockState, int dockLine)
     {
       if (currentDockState == DockState.Free)
       {
