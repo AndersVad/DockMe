@@ -16,19 +16,19 @@
                                 x:Name="TopThumb"
                                 Height="5"
                                 VerticalAlignment="Top"
-                                Background="Purple"
+                                Background="#252B2D"
                                 Visibility="Collapsed" />
                             <Grid
                                 x:Name="LeftThumb"
                                 Width="5"
                                 HorizontalAlignment="Left"
-                                Background="Purple"
+                                Background="#252B2D"
                                 Visibility="Collapsed" />
                             <Grid
                                 x:Name="RightThumb"
                                 Width="5"
                                 HorizontalAlignment="Right"
-                                Background="Purple"
+                                Background="#252B2D"
                                 Visibility="Collapsed" />
                             <ContentPresenter>
                                 <ContentPresenter.RenderTransform>
@@ -54,15 +54,16 @@
                                 IsHitTestVisible="False"
                                 SnapsToDevicePixels="True"
                                 Visibility="Collapsed" />
-                            <Grid.Effect>
-                                <DropShadowEffect
-                                    BlurRadius="9"
-                                    Direction="270"
-                                    Opacity="0.3"
-                                    ShadowDepth="5"
-                                    Color="Black" />
-                            </Grid.Effect>
+
                         </Grid>
+                        <Border.Effect>
+                            <DropShadowEffect
+                                BlurRadius="9"
+                                Direction="270"
+                                Opacity="0.3"
+                                ShadowDepth="5"
+                                Color="Black" />
+                        </Border.Effect>
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsStickingLeft" Value="True">
@@ -97,7 +98,11 @@
                                             Storyboard.TargetName="TranslateTransform"
                                             Storyboard.TargetProperty="X"
                                             To="-350"
-                                            Duration="0:0:0.3" />
+                                            Duration="0:0:0.3">
+                                            <DoubleAnimation.EasingFunction>
+                                                <CubicEase EasingMode="EaseInOut" />
+                                            </DoubleAnimation.EasingFunction>
+                                        </DoubleAnimation>
                                     </Storyboard>
                                 </BeginStoryboard>
                             </MultiTrigger.EnterActions>
@@ -107,7 +112,11 @@
                                         <DoubleAnimation
                                             Storyboard.TargetName="TranslateTransform"
                                             Storyboard.TargetProperty="X"
-                                            Duration="0:0:0.3" />
+                                            Duration="0:0:0.3">
+                                            <DoubleAnimation.EasingFunction>
+                                                <CubicEase EasingMode="EaseInOut" />
+                                            </DoubleAnimation.EasingFunction>
+                                        </DoubleAnimation>
                                     </Storyboard>
                                 </BeginStoryboard>
                             </MultiTrigger.ExitActions>
@@ -125,7 +134,11 @@
                                             Storyboard.TargetName="TranslateTransform"
                                             Storyboard.TargetProperty="X"
                                             To="350"
-                                            Duration="0:0:0.3" />
+                                            Duration="0:0:0.3">
+                                            <DoubleAnimation.EasingFunction>
+                                                <CubicEase EasingMode="EaseInOut" />
+                                            </DoubleAnimation.EasingFunction>
+                                        </DoubleAnimation>
                                     </Storyboard>
                                 </BeginStoryboard>
                             </MultiTrigger.EnterActions>
@@ -135,7 +148,11 @@
                                         <DoubleAnimation
                                             Storyboard.TargetName="TranslateTransform"
                                             Storyboard.TargetProperty="X"
-                                            Duration="0:0:0.3" />
+                                            Duration="0:0:0.3">
+                                            <DoubleAnimation.EasingFunction>
+                                                <CubicEase EasingMode="EaseInOut" />
+                                            </DoubleAnimation.EasingFunction>
+                                        </DoubleAnimation>
                                     </Storyboard>
                                 </BeginStoryboard>
                             </MultiTrigger.ExitActions>
@@ -153,7 +170,11 @@
                                             Storyboard.TargetName="TranslateTransform"
                                             Storyboard.TargetProperty="Y"
                                             To="-350"
-                                            Duration="0:0:0.3" />
+                                            Duration="0:0:0.3">
+                                            <DoubleAnimation.EasingFunction>
+                                                <CubicEase EasingMode="EaseInOut" />
+                                            </DoubleAnimation.EasingFunction>
+                                        </DoubleAnimation>
                                     </Storyboard>
                                 </BeginStoryboard>
                             </MultiTrigger.EnterActions>
@@ -163,7 +184,11 @@
                                         <DoubleAnimation
                                             Storyboard.TargetName="TranslateTransform"
                                             Storyboard.TargetProperty="Y"
-                                            Duration="0:0:0.3" />
+                                            Duration="0:0:0.3">
+                                            <DoubleAnimation.EasingFunction>
+                                                <CubicEase EasingMode="EaseInOut" />
+                                            </DoubleAnimation.EasingFunction>
+                                        </DoubleAnimation>
                                     </Storyboard>
                                 </BeginStoryboard>
                             </MultiTrigger.ExitActions>
