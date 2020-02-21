@@ -15,7 +15,7 @@
     WindowStyle="None"
     mc:Ignorable="d">
     <Border BorderBrush="Blue" BorderThickness="0">
-        <local:DockHost>
+        <local:DockHost1>
             <Grid Background="Red">
                 <StackPanel>
                     <TextBlock Text="{Binding ElementName=Window, Path=Left}" />
@@ -24,6 +24,6 @@
                     <TextBlock Text="{Binding ElementName=Window, Path=ActualHeight}" />
                 </StackPanel>
             </Grid>
-        </local:DockHost>
+        </local:DockHost1>
     </Border>
 </Window>

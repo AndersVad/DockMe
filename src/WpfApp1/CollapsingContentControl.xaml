@@ -45,6 +45,7 @@
                             <MultiTrigger.Conditions>
                                 <Condition Property="IsMouseOver" Value="False" />
                                 <Condition Property="Direction" Value="Left" />
+                                <Condition Property="CanCollapse" Value="True" />
                             </MultiTrigger.Conditions>
                             <MultiTrigger.EnterActions>
                                 <BeginStoryboard>
@@ -72,6 +73,7 @@
                             <MultiTrigger.Conditions>
                                 <Condition Property="IsMouseOver" Value="False" />
                                 <Condition Property="Direction" Value="Right" />
+                                <Condition Property="CanCollapse" Value="True" />
                             </MultiTrigger.Conditions>
                             <MultiTrigger.EnterActions>
                                 <BeginStoryboard>
@@ -99,6 +101,7 @@
                             <MultiTrigger.Conditions>
                                 <Condition Property="IsMouseOver" Value="False" />
                                 <Condition Property="Direction" Value="Top" />
+                                <Condition Property="CanCollapse" Value="True" />
                             </MultiTrigger.Conditions>
                             <MultiTrigger.EnterActions>
                                 <BeginStoryboard>

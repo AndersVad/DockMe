@@ -7,7 +7,7 @@
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="DockHost.xaml" />
+                <ResourceDictionary Source="DockHost1.xaml" />
                 <ResourceDictionary Source="CollapsingContentControl.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>

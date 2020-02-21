@@ -6,20 +6,20 @@ using System.Windows.Input;
 
 namespace WpfApp1
 {
-  public class DockHost : ContentControl
+  public class DockHost1 : ContentControl
   {
     private readonly object lockObject = new object();
     private Window window;
     private List<Monitors.Screen> screens;
 
     public static readonly DependencyProperty LeftProperty = DependencyProperty.Register(
-      "Left", typeof(DockState), typeof(DockHost), new PropertyMetadata(default(DockState)));
+      "Left", typeof(DockState), typeof(DockHost1), new PropertyMetadata(default(DockState)));
 
     public static readonly DependencyProperty RightProperty = DependencyProperty.Register(
-      "Right", typeof(DockState), typeof(DockHost), new PropertyMetadata(default(DockState)));
+      "Right", typeof(DockState), typeof(DockHost1), new PropertyMetadata(default(DockState)));
 
     public static readonly DependencyProperty TopProperty = DependencyProperty.Register(
-      "Top", typeof(DockState), typeof(DockHost), new PropertyMetadata(default(DockState)));
+      "Top", typeof(DockState), typeof(DockHost1), new PropertyMetadata(default(DockState)));
 
     private bool isDragging;
     //private Point anchor;
@@ -47,9 +47,9 @@ namespace WpfApp1
       set => SetValue(LeftProperty, value);
     }
 
-    static DockHost()
+    static DockHost1()
     {
-      DefaultStyleKeyProperty.OverrideMetadata(typeof(DockHost), new FrameworkPropertyMetadata(typeof(DockHost)));
+      DefaultStyleKeyProperty.OverrideMetadata(typeof(DockHost1), new FrameworkPropertyMetadata(typeof(DockHost1)));
     }
 
 

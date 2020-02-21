@@ -4,10 +4,10 @@
     xmlns:local="clr-namespace:WpfApp1">
 
 
-    <Style TargetType="{x:Type local:DockHost}">
+    <Style TargetType="{x:Type local:DockHost1}">
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="{x:Type local:DockHost}">
+                <ControlTemplate TargetType="{x:Type local:DockHost1}">
                     <Border Background="{TemplateBinding Background}"
                             BorderBrush="{TemplateBinding BorderBrush}"
                             BorderThickness="{TemplateBinding BorderThickness}">
