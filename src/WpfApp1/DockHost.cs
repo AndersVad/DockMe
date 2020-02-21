@@ -15,6 +15,9 @@ namespace WpfApp1
     private double snapX;
     private double snapY;
     private bool isDragging;
+    private IEnumerable<int> leftEdges; //todo refactor into own class and subscribe to changed screen size events
+    private IEnumerable<int> rightEdges;//
+    private IEnumerable<int> topEdges;  //
 
     public static readonly DependencyProperty IsStickingLeftProperty = DependencyProperty.Register(
       "IsStickingLeft", typeof(bool), typeof(DockHost), new PropertyMetadata(default(bool)));
@@ -28,9 +31,14 @@ namespace WpfApp1
     public static readonly DependencyProperty DockEdgeProperty = DependencyProperty.Register(
       "DockEdge", typeof(DockEdge), typeof(DockHost), new PropertyMetadata(default(DockEdge)));
 
-    private IEnumerable<int> leftEdges;
-    private IEnumerable<int> rightEdges;
-    private IEnumerable<int> topEdges;
+    public static readonly DependencyProperty IsPinnedProperty = DependencyProperty.Register(
+      "IsPinned", typeof(bool), typeof(DockHost), new PropertyMetadata(default(bool)));
+
+    public bool IsPinned
+    {
+      get => (bool)GetValue(IsPinnedProperty);
+      set => SetValue(IsPinnedProperty, value);
+    }
 
     public DockEdge DockEdge
     {
@@ -73,10 +81,16 @@ namespace WpfApp1
       window.MouseMove += WindowOnMouseMove;
       window.MouseUp += WindowOnMouseUp;
 
+      
+    }
+
+    protected override void OnRenderSizeChanged(SizeChangedInfo sizeInfo)
+    {
+      base.OnRenderSizeChanged(sizeInfo);
       var screens = Monitors.GetScreens();
-      leftEdges = screens.Select(screen => screen.TopX).ToList();
-      rightEdges = screens.Select(screen => screen.TopX + screen.Width - (int)window.Width).ToList();
-      topEdges = screens.Select(screen => screen.TopY).ToList();
+      leftEdges = screens.Select(screen => screen.TopX - (int)Margin.Left).ToList();
+      rightEdges = screens.Select(screen => screen.TopX + screen.Width - (int)window.ActualWidth + (int)Margin.Right).ToList();
+      topEdges = screens.Select(screen => screen.TopY - (int)Margin.Top).ToList();
     }
 
     private void WindowOnMouseMove(object sender, MouseEventArgs e)

@@ -6,45 +6,65 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="local:DockHost">
-                    <Grid Background="Transparent" SnapsToDevicePixels="True">
-
-                        <local:CollapsingContentControl
-                            x:Name="ContentPresenter"
-                            CanCollapse="True"
-                            Content="{TemplateBinding Content}" />
-
-                        <Border
-                            x:Name="Left"
-                            BorderBrush="LawnGreen"
-                            BorderThickness="2,0,0,0"
-                            IsHitTestVisible="False"
-                            Visibility="Collapsed" />
-                        <Border
-                            x:Name="Top"
-                            BorderBrush="LawnGreen"
-                            BorderThickness="0,2,0,0"
-                            IsHitTestVisible="False"
-                            Visibility="Collapsed" />
-                        <Border
-                            x:Name="Right"
-                            BorderBrush="LawnGreen"
-                            BorderThickness="0,0,2,0"
-                            IsHitTestVisible="False"
-                            SnapsToDevicePixels="True"
-                            Visibility="Collapsed" />
-                    </Grid>
-
+                    <Border>
+                        <Grid
+                            x:Name="Grid"
+                            Background="Transparent"
+                            ClipToBounds="True"
+                            SnapsToDevicePixels="True">
+                            <Grid
+                                x:Name="TopThumb"
+                                Height="5"
+                                VerticalAlignment="Top"
+                                Background="Purple"
+                                Visibility="Collapsed" />
+                            <Grid
+                                x:Name="LeftThumb"
+                                Width="5"
+                                HorizontalAlignment="Left"
+                                Background="Purple"
+                                Visibility="Collapsed" />
+                            <Grid
+                                x:Name="RightThumb"
+                                Width="5"
+                                HorizontalAlignment="Right"
+                                Background="Purple"
+                                Visibility="Collapsed" />
+                            <ContentPresenter>
+                                <ContentPresenter.RenderTransform>
+                                    <TranslateTransform x:Name="TranslateTransform" />
+                                </ContentPresenter.RenderTransform>
+                            </ContentPresenter>
+                            <Border
+                                x:Name="Left"
+                                BorderBrush="#3FE7B7"
+                                BorderThickness="1,0,0,0"
+                                IsHitTestVisible="False"
+                                Visibility="Collapsed" />
+                            <Border
+                                x:Name="Top"
+                                BorderBrush="#3FE7B7"
+                                BorderThickness="0,1,0,0"
+                                IsHitTestVisible="False"
+                                Visibility="Collapsed" />
+                            <Border
+                                x:Name="Right"
+                                BorderBrush="#3FE7B7"
+                                BorderThickness="0,0,1,0"
+                                IsHitTestVisible="False"
+                                SnapsToDevicePixels="True"
+                                Visibility="Collapsed" />
+                            <Grid.Effect>
+                                <DropShadowEffect
+                                    BlurRadius="9"
+                                    Direction="270"
+                                    Opacity="0.3"
+                                    ShadowDepth="5"
+                                    Color="Black" />
+                            </Grid.Effect>
+                        </Grid>
+                    </Border>
                     <ControlTemplate.Triggers>
-
-                        <!--<Trigger Property="Top" Value="Docked">
-                            <Setter TargetName="ContentPresenter" Property="Direction" Value="Top" />
-                        </Trigger>
-                        <Trigger Property="Right" Value="Docked">
-                            <Setter TargetName="ContentPresenter" Property="Direction" Value="Right" />
-                        </Trigger>
-                        <Trigger Property="Left" Value="Docked">
-                            <Setter TargetName="ContentPresenter" Property="Direction" Value="Left" />
-                        </Trigger>-->
                         <Trigger Property="IsStickingLeft" Value="True">
                             <Setter TargetName="Left" Property="Visibility" Value="Visible" />
                         </Trigger>
@@ -54,12 +74,106 @@
                         <Trigger Property="IsStickingRight" Value="True">
                             <Setter TargetName="Right" Property="Visibility" Value="Visible" />
                         </Trigger>
+
+                        <Trigger Property="DockEdge" Value="Top">
+                            <Setter TargetName="TopThumb" Property="Visibility" Value="Visible" />
+                        </Trigger>
+                        <Trigger Property="DockEdge" Value="Left">
+                            <Setter TargetName="LeftThumb" Property="Visibility" Value="Visible" />
+                        </Trigger>
+                        <Trigger Property="DockEdge" Value="Right">
+                            <Setter TargetName="RightThumb" Property="Visibility" Value="Visible" />
+                        </Trigger>
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsMouseOver" Value="False" />
+                                <Condition Property="DockEdge" Value="Left" />
+                                <Condition Property="IsPinned" Value="False" />
+                            </MultiTrigger.Conditions>
+                            <MultiTrigger.EnterActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation
+                                            Storyboard.TargetName="TranslateTransform"
+                                            Storyboard.TargetProperty="X"
+                                            To="-350"
+                                            Duration="0:0:0.3" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </MultiTrigger.EnterActions>
+                            <MultiTrigger.ExitActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation
+                                            Storyboard.TargetName="TranslateTransform"
+                                            Storyboard.TargetProperty="X"
+                                            Duration="0:0:0.3" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </MultiTrigger.ExitActions>
+                        </MultiTrigger>
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsMouseOver" Value="False" />
+                                <Condition Property="DockEdge" Value="Right" />
+                                <Condition Property="IsPinned" Value="False" />
+                            </MultiTrigger.Conditions>
+                            <MultiTrigger.EnterActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation
+                                            Storyboard.TargetName="TranslateTransform"
+                                            Storyboard.TargetProperty="X"
+                                            To="350"
+                                            Duration="0:0:0.3" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </MultiTrigger.EnterActions>
+                            <MultiTrigger.ExitActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation
+                                            Storyboard.TargetName="TranslateTransform"
+                                            Storyboard.TargetProperty="X"
+                                            Duration="0:0:0.3" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </MultiTrigger.ExitActions>
+                        </MultiTrigger>
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsMouseOver" Value="False" />
+                                <Condition Property="DockEdge" Value="Top" />
+                                <Condition Property="IsPinned" Value="False" />
+                            </MultiTrigger.Conditions>
+                            <MultiTrigger.EnterActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation
+                                            Storyboard.TargetName="TranslateTransform"
+                                            Storyboard.TargetProperty="Y"
+                                            To="-350"
+                                            Duration="0:0:0.3" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </MultiTrigger.EnterActions>
+                            <MultiTrigger.ExitActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation
+                                            Storyboard.TargetName="TranslateTransform"
+                                            Storyboard.TargetProperty="Y"
+                                            Duration="0:0:0.3" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </MultiTrigger.ExitActions>
+                        </MultiTrigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
     </Style>
 
-    <Style BasedOn="{StaticResource DockHostStyle}" TargetType="local:DockHost"></Style>
+    <Style BasedOn="{StaticResource DockHostStyle}" TargetType="local:DockHost" />
 
 </ResourceDictionary>
