@@ -7,7 +7,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     x:Name="Window"
     Title="MainWindow"
-    Width="800"
+    Width="300"
     Height="450"
     AllowsTransparency="True"
     Background="Transparent"
@@ -15,7 +15,7 @@
     WindowStyle="None"
     mc:Ignorable="d">
     <Border BorderBrush="Blue" BorderThickness="0">
-        <local:DockHost1>
+        <local:DockHost>
             <Grid Background="Red">
                 <StackPanel>
                     <TextBlock Text="{Binding ElementName=Window, Path=Left}" />
@@ -24,6 +24,6 @@
                     <TextBlock Text="{Binding ElementName=Window, Path=ActualHeight}" />
                 </StackPanel>
             </Grid>
-        </local:DockHost1>
+        </local:DockHost>
     </Border>
 </Window>

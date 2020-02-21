@@ -13,13 +13,13 @@ namespace WpfApp1
     private List<Monitors.Screen> screens;
 
     public static readonly DependencyProperty LeftProperty = DependencyProperty.Register(
-      "Left", typeof(DockState), typeof(DockHost1), new PropertyMetadata(default(DockState)));
+      "Left", typeof(DockState1), typeof(DockHost1), new PropertyMetadata(default(DockState1)));
 
     public static readonly DependencyProperty RightProperty = DependencyProperty.Register(
-      "Right", typeof(DockState), typeof(DockHost1), new PropertyMetadata(default(DockState)));
+      "Right", typeof(DockState1), typeof(DockHost1), new PropertyMetadata(default(DockState1)));
 
     public static readonly DependencyProperty TopProperty = DependencyProperty.Register(
-      "Top", typeof(DockState), typeof(DockHost1), new PropertyMetadata(default(DockState)));
+      "Top", typeof(DockState1), typeof(DockHost1), new PropertyMetadata(default(DockState1)));
 
     private bool isDragging;
     //private Point anchor;
@@ -29,21 +29,21 @@ namespace WpfApp1
     private double anchorX;
     private double anchorY;
 
-    public DockState Top
+    public DockState1 Top
     {
-      get => (DockState)GetValue(TopProperty);
+      get => (DockState1)GetValue(TopProperty);
       set => SetValue(TopProperty, value);
     }
 
-    public DockState Right
+    public DockState1 Right
     {
-      get => (DockState)GetValue(RightProperty);
+      get => (DockState1)GetValue(RightProperty);
       set => SetValue(RightProperty, value);
     }
 
-    public DockState Left
+    public DockState1 Left
     {
-      get => (DockState)GetValue(LeftProperty);
+      get => (DockState1)GetValue(LeftProperty);
       set => SetValue(LeftProperty, value);
     }
 
@@ -81,9 +81,9 @@ namespace WpfApp1
       anchorX = anchor.X;
       anchorY = anchor.Y;
 
-      Left = Left == DockState.Docked ? DockState.Docking : DockState.Free;
-      Right = Right == DockState.Docked ? DockState.Docking : DockState.Free;
-      Top = Top == DockState.Docked ? DockState.Docking : DockState.Free;
+      Left = Left == DockState1.Docked ? DockState1.Docking : DockState1.Free;
+      Right = Right == DockState1.Docked ? DockState1.Docking : DockState1.Free;
+      Top = Top == DockState1.Docked ? DockState1.Docking : DockState1.Free;
       isDragging = true;
     }
 
@@ -91,9 +91,9 @@ namespace WpfApp1
     {
       isDragging = false;
 
-      Left = Left == DockState.Docking ? DockState.Docked : DockState.Free;
-      Right = Right == DockState.Docking ? DockState.Docked : DockState.Free;
-      Top = Top == DockState.Docking ? DockState.Docked : DockState.Free;
+      Left = Left == DockState1.Docking ? DockState1.Docked : DockState1.Free;
+      Right = Right == DockState1.Docking ? DockState1.Docked : DockState1.Free;
+      Top = Top == DockState1.Docking ? DockState1.Docked : DockState1.Free;
 
       ReleaseMouseCapture();
     }
@@ -109,26 +109,26 @@ namespace WpfApp1
       Right = UpdateDraggingState(currentPoint, Right, screens[0].TopX+screens[0].Width-(int)window.Width);
       Top = UpdateTopDockState(currentPoint, Top, screens[0].TopY);
 
-      if (Left == DockState.Free && Right == DockState.Free)
+      if (Left == DockState1.Free && Right == DockState1.Free)
       {
         window.Left = window.Left + currentPoint.X - anchorX;
         anchorX = currentPoint.X;
       }
 
-      if (Top == DockState.Free)
+      if (Top == DockState1.Free)
       {
         window.Top = window.Top + currentPoint.Y - anchorY;
         anchorY = currentPoint.Y;
       }
     }
 
-    private DockState UpdateDraggingState(Point currentPoint, DockState currentDockState, int dockLine)
+    private DockState1 UpdateDraggingState(Point currentPoint, DockState1 currentDockState, int dockLine)
     {
-      if (currentDockState == DockState.Free)
+      if (currentDockState == DockState1.Free)
       {
         if (Math.Abs(window.Left - dockLine) < 25)
         {
-          currentDockState = DockState.Docking;
+          currentDockState = DockState1.Docking;
           horizontalSnapPoint = currentPoint;
           window.Left = dockLine;
         }
@@ -137,19 +137,19 @@ namespace WpfApp1
       {
         var delta = horizontalSnapPoint - currentPoint;
         if (Math.Abs(delta.X) > 50)
-          currentDockState = DockState.Free;
+          currentDockState = DockState1.Free;
       }
 
       return currentDockState;
     }
 
-    private DockState UpdateTopDockState(Point currentPoint, DockState currentDockState, int dockLine)
+    private DockState1 UpdateTopDockState(Point currentPoint, DockState1 currentDockState, int dockLine)
     {
-      if (currentDockState == DockState.Free)
+      if (currentDockState == DockState1.Free)
       {
         if (Math.Abs(window.Top - dockLine) < 25)
         {
-          currentDockState = DockState.Docking;
+          currentDockState = DockState1.Docking;
           verticalSnapPoint = currentPoint;
           window.Top = dockLine;
         }
@@ -158,7 +158,7 @@ namespace WpfApp1
       {
         var delta = verticalSnapPoint - currentPoint;
         if (Math.Abs(delta.Y) > 50)
-          currentDockState = DockState.Free;
+          currentDockState = DockState1.Free;
       }
 
       return currentDockState;

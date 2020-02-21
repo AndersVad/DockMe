@@ -1,0 +1,65 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:WpfApp1">
+    <Style x:Key="DockHostStyle" TargetType="local:DockHost">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="local:DockHost">
+                    <Grid Background="Transparent" SnapsToDevicePixels="True">
+
+                        <local:CollapsingContentControl
+                            x:Name="ContentPresenter"
+                            CanCollapse="True"
+                            Content="{TemplateBinding Content}" />
+
+                        <Border
+                            x:Name="Left"
+                            BorderBrush="LawnGreen"
+                            BorderThickness="2,0,0,0"
+                            IsHitTestVisible="False"
+                            Visibility="Collapsed" />
+                        <Border
+                            x:Name="Top"
+                            BorderBrush="LawnGreen"
+                            BorderThickness="0,2,0,0"
+                            IsHitTestVisible="False"
+                            Visibility="Collapsed" />
+                        <Border
+                            x:Name="Right"
+                            BorderBrush="LawnGreen"
+                            BorderThickness="0,0,2,0"
+                            IsHitTestVisible="False"
+                            SnapsToDevicePixels="True"
+                            Visibility="Collapsed" />
+                    </Grid>
+
+                    <ControlTemplate.Triggers>
+
+                        <!--<Trigger Property="Top" Value="Docked">
+                            <Setter TargetName="ContentPresenter" Property="Direction" Value="Top" />
+                        </Trigger>
+                        <Trigger Property="Right" Value="Docked">
+                            <Setter TargetName="ContentPresenter" Property="Direction" Value="Right" />
+                        </Trigger>
+                        <Trigger Property="Left" Value="Docked">
+                            <Setter TargetName="ContentPresenter" Property="Direction" Value="Left" />
+                        </Trigger>-->
+                        <Trigger Property="IsStickingLeft" Value="True">
+                            <Setter TargetName="Left" Property="Visibility" Value="Visible" />
+                        </Trigger>
+                        <Trigger Property="IsStickingTop" Value="True">
+                            <Setter TargetName="Top" Property="Visibility" Value="Visible" />
+                        </Trigger>
+                        <Trigger Property="IsStickingRight" Value="True">
+                            <Setter TargetName="Right" Property="Visibility" Value="Visible" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style BasedOn="{StaticResource DockHostStyle}" TargetType="local:DockHost"></Style>
+
+</ResourceDictionary>
