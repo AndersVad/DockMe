@@ -1,0 +1,29 @@
+﻿<Window
+    x:Class="WpfApp1.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:WpfApp1"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    x:Name="Window"
+    Title="MainWindow"
+    AllowsTransparency="True"
+    Background="Transparent"
+    BorderThickness="0"
+    SizeToContent="WidthAndHeight"
+    WindowStyle="None"
+    mc:Ignorable="d">
+    <local:DockHost Margin="10">
+        <Grid
+            Width="220"
+            Height="350"
+            Background="#252B2D">
+            <StackPanel>
+                <TextBlock Text="{Binding ElementName=Window, Path=Left}" />
+                <TextBlock Text="{Binding ElementName=Window, Path=Top}" />
+                <TextBlock Text="{Binding ElementName=Window, Path=ActualWidth}" />
+                <TextBlock Text="{Binding ElementName=Window, Path=ActualHeight}" />
+            </StackPanel>
+        </Grid>
+    </local:DockHost>
+</Window>
